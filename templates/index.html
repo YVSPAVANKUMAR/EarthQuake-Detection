@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earthquake Detection</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-tr from-blue-100 via-indigo-100 to-blue-200 min-h-screen w-full">
+    <div class="container mx-auto py-10 px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+            <!-- Left: Form -->
+            <div class="bg-white rounded-3xl shadow-2xl p-8 flex flex-col justify-center h-full">
+                <div class="mb-8 text-center">
+                    <h2 class="text-3xl font-extrabold text-indigo-700 mb-2">Earthquake Magnitude & Depth Prediction</h2>
+                    <p class="text-gray-500">Enter the details below to predict the earthquake's impact.</p>
+                </div>
+                <form method="POST" class="space-y-6">
+                    <div>
+                        <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Date <span class="text-gray-400">(MM/DD/YYYY)</span></label>
+                        <input type="text" class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 p-2" id="date" name="date" placeholder="01/02/1965" required>
+                    </div>
+                    <div>
+                        <label for="time" class="block text-sm font-medium text-gray-700 mb-1">Time <span class="text-gray-400">(HH:MM:SS)</span></label>
+                        <input type="text" class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 p-2" id="time" name="time" placeholder="13:44:18" required>
+                    </div>
+                    <div>
+                        <label for="latitude" class="block text-sm font-medium text-gray-700 mb-1">Latitude</label>
+                        <input type="number" step="any" class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 p-2" id="latitude" name="latitude" required>
+                    </div>
+                    <div>
+                        <label for="longitude" class="block text-sm font-medium text-gray-700 mb-1">Longitude</label>
+                        <input type="number" step="any" class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 p-2" id="longitude" name="longitude" required>
+                    </div>
+                    <div>
+                        <button type="submit" class="w-full py-3 px-6 rounded-lg bg-indigo-600 text-white font-semibold text-lg shadow-md hover:bg-indigo-700 transition">Predict</button>
+                    </div>
+                </form>
+            </div>
+            <!-- Right: Prediction Results -->
+                {% if prediction %}
+    <div class="mt-8 space-y-6">
+        <div class="rounded-xl bg-indigo-50 p-4 shadow flex flex-col items-start">
+            <h4 class="text-lg font-bold text-indigo-700 mb-1">Predicted Magnitude</h4>
+            <p class="text-2xl font-semibold text-indigo-900">{{ prediction['Magnitude'] }}</p>
+            <p class="text-gray-500 text-sm mt-1">Magnitude is a measure of the energy released at the source of the earthquake. For example, a magnitude of 5.0 is considered moderate, while 6.0 or higher can cause significant damage depending on location and depth.</p>
+        </div>
+        <div class="rounded-xl bg-blue-50 p-4 shadow flex flex-col items-start">
+            <h4 class="text-lg font-bold text-blue-700 mb-1">Predicted Depth</h4>
+            <p class="text-2xl font-semibold text-blue-900">{{ prediction['Depth'] }} km</p>
+            <p class="text-gray-500 text-sm mt-1">Depth indicates how deep below the Earth’s surface the earthquake occurred. Shallow earthquakes (less than 70 km) are usually more damaging than deeper ones.</p>
+        </div>
+        <div class="rounded-xl bg-yellow-50 p-4 shadow flex flex-col items-start">
+            <h4 class="text-lg font-bold text-yellow-700 mb-1">Damage Prediction</h4>
+            <p class="text-xl font-semibold text-yellow-900">{{ prediction['Damage'] }}</p>
+            <p class="text-gray-500 text-sm mt-1">This is an estimated assessment of the likely level of damage based on the predicted magnitude and depth.</p>
+        </div>
+        <div class="rounded-xl bg-emerald-50 p-4 shadow flex flex-col items-start">
+            <h4 class="text-lg font-bold text-emerald-700 mb-1">Depth Analysis</h4>
+            <p class="text-xl font-semibold text-emerald-900">{{ prediction['DepthComment'] }}</p>
+            <p class="text-gray-500 text-sm mt-1">{{ prediction['DepthComment'] }}</p>
+        </div>
+        <div class="rounded-xl bg-white p-4 shadow flex flex-col items-start border border-gray-100">
+            <h4 class="text-md font-bold text-gray-700 mb-2">What does this mean?</h4>
+            <ul class="list-disc pl-5 text-gray-600 text-sm space-y-1">
+                <li><strong>Magnitude:</strong> Higher values mean a stronger earthquake. For example, a value above 6.0 is considered strong.</li>
+                <li><strong>Depth:</strong> Lower values (shallow earthquakes) tend to cause more surface shaking and potential damage.</li>
+                <li><strong>Damage:</strong> The statement above gives a general idea of expected impact for the given earthquake parameters.</li>
+            </ul>
+            <p class="mt-2 text-xs text-gray-400">These predictions are based on the input parameters you provided and a machine learning model trained on historical earthquake data.</p>
+        </div>
+    </div>
+{% endif %}
+                {% if error %}
+                    <div class="alert alert-danger mt-4">
+                        <strong>Error:</strong> {{ error }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
