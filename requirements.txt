@@ -1,6 +1,6 @@
 pandas
 numpy
-sklear
+scikit-learn
 matplotlib
 keras
 gunicorn
